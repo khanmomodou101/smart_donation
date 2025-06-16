@@ -1,0 +1,309 @@
+{% extends "templates/web.html" %}
+
+{% block header %}{% endblock %}
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Club Revolution - Donate</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .provider-name {
+            font-size: 32px;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .donation-message {
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .donation-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .amount-input {
+            position: relative;
+        }
+
+        .amount-input input {
+            padding-left: 40px;
+        }
+
+        .currency-symbol {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+
+        .quick-amounts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quick-amount {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-amount:hover {
+            background: #e9ecef;
+            border-color: #3498db;
+        }
+
+        .quick-amount.active {
+            background: #3498db;
+            border-color: #3498db;
+            color: white;
+        }
+
+        .submit-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        .submit-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .submit-button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .provider-name {
+                font-size: 24px;
+            }
+
+            .quick-amounts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="provider-name">Football Club Revolution</div>
+        </div>
+
+        <p class="donation-message">
+            Support our mission to provide quality football jerseys to our team. 
+            Your donation will help us print new jerseys and maintain our team's professional appearance.
+            Every contribution brings us closer to our goal!
+        </p>
+
+        <form id="donation-form" class="donation-form" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label for="full_name">Full Name</label>
+                <input type="text" id="full_name" name="full_name" required placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number" pattern="[0-9]{7,10}">
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Donation Amount</label>
+                <div class="amount-input">
+                    <span class="currency-symbol">D</span>
+                    <input type="number" id="amount" name="amount" min="1" step="1" required placeholder="Enter amount">
+                </div>
+                <div class="quick-amounts">
+                    <div class="quick-amount" onclick="setAmount(50)">D50</div>
+                    <div class="quick-amount" onclick="setAmount(100)">D100</div>
+                    <div class="quick-amount" onclick="setAmount(200)">D200</div>
+                    <div class="quick-amount" onclick="setAmount(500)">D500</div>
+                    <div class="quick-amount" onclick="setAmount(1000)">D1000</div>
+                    <div class="quick-amount" onclick="setAmount(2000)">D2000</div>
+                </div>
+            </div>
+            <button type="submit" class="submit-button" id="submit-button">
+                <span class="loading-spinner" id="loading-spinner"></span>
+                <span id="button-text">Donate Now</span>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        function setAmount(amount) {
+            document.getElementById('amount').value = amount;
+            // Remove active class from all quick amounts
+            document.querySelectorAll('.quick-amount').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Add active class to clicked amount
+            event.target.classList.add('active');
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const amount = document.getElementById('amount').value;
+            const fullName = document.getElementById('full_name').value;
+            const phone = document.getElementById('phone').value;
+            const submitButton = document.getElementById('submit-button');
+            const buttonText = document.getElementById('button-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            
+            if (!amount || amount < 1) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            if (!fullName) {
+                alert('Please enter your full name');
+                return;
+            }
+
+            if (!phone) {
+                alert('Please enter your phone number');
+                return;
+            }
+
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            buttonText.textContent = 'Processing...';
+            loadingSpinner.style.display = 'inline-block';
+
+            // Call the initialize_payment function
+            frappe.call({
+                method: 'wifi_ticket.www.donate.index.donate',
+                args: {
+                    amount: parseFloat(amount),
+                    full_name: fullName,
+                    phone: phone
+                },
+                callback: function(response) {
+                    if (response.message && response.message.status === "success") {
+                        // Redirect to Wave payment link
+                        window.location.href = response.message.wave_payment_link;
+                    } else {
+                        // Show error message
+                        alert('Error processing payment. Please try again.');
+                        submitButton.disabled = false;
+                        buttonText.textContent = 'Donate Now';
+                        loadingSpinner.style.display = 'none';
+                    }
+                },
+                error: function(err) {
+                    console.error('Error:', err);
+                    alert('Error processing payment. Please try again.');
+                    submitButton.disabled = false;
+                    buttonText.textContent = 'Donate Now';
+                    loadingSpinner.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+{% endblock %}
