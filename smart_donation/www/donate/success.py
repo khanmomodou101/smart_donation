@@ -44,5 +44,6 @@ def get_context(context):
         donation = None
 
     context.is_valid = is_valid
+    context.reference_id = reference_id
 
     return context
