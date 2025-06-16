@@ -36,11 +36,12 @@ def get_context(context):
                 frappe.log_error(f"Payment not successful. Status: {payment_status.get('payment_status')}")
                 frappe.logger().debug(f"Payment not successful. Status: {payment_status.get('payment_status')}")
         except Exception as e:
-            frappe.log_error(f"Error processing donation: {str(e)}", "donation Processing Error")
+            frappe.log_error(f"Error processing donation: {str(e)}", "Donation Processing Error")
             donation = None
     else:
         donation = None
 
     context.reference_id = reference_id
-
+    context.donation = donation
+    context.status = frappe.db.get_value("Donation", {"reference_id": reference_id}, "payment_status")
     return context
