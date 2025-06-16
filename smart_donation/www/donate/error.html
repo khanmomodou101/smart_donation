@@ -1,0 +1,190 @@
+{% extends "templates/web.html" %}
+
+{% block header %}{% endblock %}
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Club Revolution - Payment Failed</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .provider-name {
+            font-size: 32px;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .error-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #e74c3c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+        }
+
+        .error-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .error-details {
+            color: #7f8c8d;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .button {
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .retry-button {
+            background: #3498db;
+            color: white;
+            border: none;
+        }
+
+        .home-button {
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: 2px solid #e0e0e0;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .retry-button:hover {
+            background: #2980b9;
+        }
+
+        .home-button:hover {
+            background: #e9ecef;
+            border-color: #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .provider-name {
+                font-size: 24px;
+            }
+
+            .error-message {
+                font-size: 20px;
+            }
+
+            .error-details {
+                font-size: 16px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="provider-name">Football Club Revolution</div>
+        </div>
+
+        <div class="error-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+        </div>
+
+        <div class="error-message">Payment Failed</div>
+        
+        <p class="error-details">
+            We're sorry, but your payment could not be processed at this time. 
+            This could be due to:
+            <br><br>
+            • Insufficient funds in your account
+            <br>
+            • Network connectivity issues
+            <br>
+            • Payment gateway temporary unavailability
+            <br><br>
+            Please try again or contact support if the problem persists.
+        </p>
+
+        <div class="button-group">
+            <a href="/donate" class="button retry-button">Try Again</a>
+            <a href="/" class="button home-button">Return to Home</a>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}
