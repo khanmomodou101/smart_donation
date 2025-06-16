@@ -8,11 +8,9 @@ def get_context(context):
     frappe.clear_cache()
     
     reference_id = frappe.request.args.get('ref')
-    is_valid = False
     if reference_id:
         try:
-            if  frappe.db.exists('Donation', {'reference_id': reference_id}):
-                is_valid = True
+            
             
             donation = frappe.get_doc('Donation', {'reference_id': reference_id})
             
@@ -43,7 +41,6 @@ def get_context(context):
     else:
         donation = None
 
-    context.is_valid = is_valid
     context.reference_id = reference_id
 
     return context
