@@ -5,9 +5,27 @@ import random
 
 def get_context(context):
     frappe.clear_cache()
-    
-    ticket_id = frappe.request.args.get("id")
-   
+    reference_id = frappe.request.args.get('ref')
+    is_valid = False
+    donation = None
+
+    if reference_id:
+        try:
+            # Use the correct doctype name consistently
+            if frappe.db.exists('Donation', {'reference_id': reference_id}):
+                is_valid = True
+                donation = frappe.get_doc('Donation', {'reference_id': reference_id})
+                # ... (rest of your payment status logic)
+            else:
+                is_valid = False
+        except Exception as e:
+            frappe.log_error(f"Error processing donation: {str(e)}", "Donation Processing Error")
+            is_valid = False
+    else:
+        is_valid = False
+
+    context.is_valid = is_valid
+    return context
 
 @frappe.whitelist(allow_guest=True)
 def donate():
