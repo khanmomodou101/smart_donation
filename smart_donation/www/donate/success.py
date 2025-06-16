@@ -1,7 +1,7 @@
 import frappe
 from frappe.utils.print_format import download_pdf
 from frappe.utils.pdf import get_pdf
-from smart_subscription.config import check_payment_status
+from smart_donation.config import check_payment_status
 
 def get_context(context):
     # Clear cache before processing

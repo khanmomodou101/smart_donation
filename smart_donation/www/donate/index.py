@@ -1,6 +1,6 @@
 import frappe
 from frappe.utils import random_string
-from smart_subscription.config import initialize_payment
+from smart_donation.config import initialize_payment
 import random
 
 def get_context(context):
