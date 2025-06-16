@@ -61,8 +61,8 @@ def donate():
 @frappe.whitelist(allow_guest=True)
 def initialize_payment_for_donation(amount, reference_id):
     try:
-        success_url = f"https://donata.jokoor.com/donate/success?ref={reference_id}"
-        error_url = f"https://donata.jokoor.com/donate/error?ref={reference_id}"
+        success_url = f"https://donation.jokoor.com/donate/success?ref={reference_id}"
+        error_url = f"https://donation.jokoor.com/donate/error?ref={reference_id}"
         response = initialize_payment(amount, reference_id, success_url, error_url)
         return response
 
