@@ -11,7 +11,7 @@ def get_context(context):
     is_valid = False
     if reference_id:
         try:
-            if  frappe.db.exists('Donate', {'reference_id': reference_id}):
+            if  frappe.db.exists('Donation', {'reference_id': reference_id}):
                 is_valid = True
             
             donation = frappe.get_doc('Donation', {'reference_id': reference_id})
